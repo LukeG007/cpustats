@@ -86,7 +86,7 @@ try:
         columns_pos -= len(str(usage_gb))
         stdscr.addstr(y, columns_pos, '] {}% {}GB '.format(usage, usage_gb))
         y += 2
-        stdscr.addstr(y, 1, 'Load Average: {} {} {}'.format(load_average[0], load_average[1], load_average[2]))
+        stdscr.addstr(y, 1, 'Load Average: {} {} {}'.format(round(load_average[0], 2), round(load_average[1], 2), round(load_average[2], 2)))
         y += 1
         stdscr.addstr(y, 1, 'System Uptime: {}'.format(humanize.precisedelta(dt.timedelta(seconds=uptime))))
         stdscr.refresh()
