@@ -74,9 +74,9 @@ try:
         stdscr.addstr(y, 0, ' [')
         usage = psutil.virtual_memory()[2]
         usage_gb = round(psutil.virtual_memory()[3]/1000000000, 1)
-        if core >= 50 and core < 75:
+        if usage >= 50 and usage < 75:
             stdscr.addstr(y, 2, get_percentage_bar(usage, columns), curses.color_pair(2))
-        elif core >= 75:
+        elif usage >= 75:
             stdscr.addstr(y, 2, get_percentage_bar(usage, columns), curses.color_pair(3))
         else:
             stdscr.addstr(y, 2, get_percentage_bar(usage, columns), curses.color_pair(1))
