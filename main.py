@@ -53,7 +53,8 @@ try:
         columns = curses.COLS
         amount_of_cores = len(cpu_percents)
         space_between_bars = round(rows_for_cpu_percents/amount_of_cores)
-        y = 1
+        stdscr.addstr(1, 1, 'CPU Usage:')
+        y = 3
         for core in cpu_percents:
             stdscr.addstr(y, 0, ' [')
             if core >= 50 and core < 75:
@@ -68,6 +69,23 @@ try:
             stdscr.addstr(y, columns_pos, '] {}% '.format(core))
             
             y += space_between_bars
+        stdscr.addstr(y, 1, 'Memory Usage:')
+        y += 2
+        stdscr.addstr(y, 0, ' [')
+        usage = psutil.virtual_memory()[2]
+        usage_gb = round(psutil.virtual_memory()[3]/1000000000, 1)
+        if core >= 50 and core < 75:
+            stdscr.addstr(y, 2, get_percentage_bar(usage, columns), curses.color_pair(2))
+        elif core >= 75:
+            stdscr.addstr(y, 2, get_percentage_bar(usage, columns), curses.color_pair(3))
+        else:
+            stdscr.addstr(y, 2, get_percentage_bar(usage, columns), curses.color_pair(1))
+        columns_pos = columns
+        columns_pos -= 7
+        columns_pos -= len(str(usage))
+        columns_pos -= len(str(usage_gb))
+        stdscr.addstr(y, columns_pos, '] {}% {}GB '.format(usage, usage_gb))
+        y += 2
         stdscr.addstr(y, 1, 'Load Average: {} {} {}'.format(load_average[0], load_average[1], load_average[2]))
         y += 1
         stdscr.addstr(y, 1, 'System Uptime: {}'.format(humanize.precisedelta(dt.timedelta(seconds=uptime))))
