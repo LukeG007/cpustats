@@ -44,6 +44,12 @@ def get_uptime():
     f.close()
     return uptime
 
+def add_spaces(data, columns):
+    spaces_needed = columns-len(data)
+    for column in range(spaces_needed):
+        data += ' '
+    return data
+
 try:
     while True:
         cpu_percents = psutil.cpu_percent(percpu=True)
@@ -86,9 +92,9 @@ try:
         columns_pos -= len(str(usage_gb))
         stdscr.addstr(y, columns_pos, '] {}% {}GB '.format(usage, usage_gb))
         y += 2
-        stdscr.addstr(y, 1, 'Load Average: {} {} {}'.format(round(load_average[0], 2), round(load_average[1], 2), round(load_average[2], 2)))
+        stdscr.addstr(y, 1, add_spaces('Load Average: {} {} {}'.format(round(load_average[0], 2), round(load_average[1], 2), round(load_average[2], 2)), columns))
         y += 1
-        stdscr.addstr(y, 1, 'System Uptime: {}'.format(humanize.precisedelta(dt.timedelta(seconds=uptime))))
+        stdscr.addstr(y, 1, add_spaces('System Uptime: {}'.format(humanize.precisedelta(dt.timedelta(seconds=uptime))), columns))
         stdscr.refresh()
         stdscr.getch()
         stdscr.timeout(1000)
